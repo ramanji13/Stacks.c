@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 4
+int front = -1,rear = -1;
+int queue[MAX];
+ 
+  void Enqueue(int element){
+      if(rear==MAX-1){
+        printf("QUEUE IS OVERFLOW\n");
+      }else {
+        if(front==-1){
+           front++;       
+        }rear++;
+       queue[rear]=element; 
+     }printf("\n");
+     return;
+  }
+  
+  void Dequeue(){
+     if(front==-1){
+       printf("QUEUE IS UNDERFLOW\n");
+     }else if(front==rear){
+       printf("deleted element is %d",queue[front]);
+       front = rear = -1;
+     }else{
+       printf("deleted element is %d",queue[front]);
+       front++;
+     }printf("\n");
+      return;
+  }
+  
+  void display(){
+     if(front==-1){
+       printf("QUEUE IS EMPTY\n"); 
+     }else{
+       for(int i=front;i<=rear;i++){
+          printf("%d\t",queue[i]);
+       } 
+    }printf("\n"); 
+  }
+  
+  void peek(){
+   if(front==-1){
+     printf("-1\n");
+   }else{
+      printf("%d\n",queue[front]);
+   }return;
+  }
+  void main(){
+    int element,op;
+    while(1){
+     printf("Enter 1.Enqueue\n2.Dequeue\n3.display\n4.peek\n5.exit\n");
+     scanf("%d",&op);
+      switch(op){
+       case 1 : printf("enter the element to add\t");
+                scanf("%d",&element);
+                Enqueue(element);
+                break;
+       case 2 : Dequeue();
+                break;
+       case 3 : display();
+                break;                   
+      case 4 :  peek();
+                break;
+      case 5 :  exit(0);
+      default : printf("entered an invalid expression\n");
+      
+      }
+    }
+  }
