@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+char stack[100];
+int top = -1;
+
+void push(char item) {
+    stack[++top] = item; // Corrected assignment
+}
+
+int pop() {
+    if (top == -1) {
+        return -1;
+    } else {
+        return stack[top--];
+    }
+}
+
+int priority(char ch) {
+    if (ch == '(') return 0;
+    if (ch == '+' || ch == '-') return 1;
+    if (ch == '*' || ch == '/' || ch == '%') return 2;
+    return -1; // Added default return
+}
+
+int main() {
+    char infix[100]; // Changed type to char array
+    char ch, x;
+    printf("enter the infix expression\n");
+    fgets(infix, sizeof(infix), stdin); // Corrected fgets usage
+    //Remove trailing newline if needed.
+    int len = strlen(infix);
+    if(len>0 && infix[len-1] == '\n'){
+        infix[len-1] = '\0';
+    }
+
+    for (int i = 0; infix[i] != '\0'; i++) {
+        ch = infix[i];
+        if (isalnum(ch)) printf("%c", ch);
+        else if (ch == '(') push(ch);
+        else if (ch == ')') {
+            while ((x = pop()) != '(') {
+                printf("%c", x);
+            }
+        } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '%') {
+            while (top != -1 && priority(stack[top]) >= priority(ch)) {
+                printf("%c", pop());
+            }
+            push(ch);
+        }
+    }
+
+    while (top != -1) {
+        printf("%c", pop());
+    }
+    printf("\n"); // Add newline for better formatting
+    return 0;
+}
